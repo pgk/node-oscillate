@@ -3,17 +3,23 @@ var buffer = require('buffer'),
 	util   = require('util'),
 	jspack = require('jspack').jspack;
 
-var tags = {'i':'i', 'f':'f', 's':'s', 'b':'b'};
+var tags = {',i':true, ',f':true, ',s':true, ',b':true};
 
-exports.OSCMessage = function (address, tag) {
+OSCMessage = function (address, tag) {
+	this.args = Array.prototype.slice.call(arguments, 2) || [];
 	this.address = "" + address || "";
 	this.tag = "," + tag || "";
 };
 
-exports.OSCMessage.prototype.validateAddress = function() {
+OSCMessage.prototype.validateAddress = function() {
 	return this.address.slice(0,1) === '/'
 };
 
-exports.OSCMessage.prototype.validateTag = function() {
-	return tags[this.tag.slice(1)] !== 'undefined';
+OSCMessage.prototype.validateTag = function() {
+	return tags[this.tag] === true;
 };
+
+OSCMessage.prototype.formatOSC = function () {
+}
+
+exports.OSCMessage = OSCMessage;
