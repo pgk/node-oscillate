@@ -2,9 +2,29 @@ var vows = require('vows'),
     assert = require('assert'),
 	oscillate = require('./../oscillate');
 
-var OSCMessage = oscillate.OSCMessage;
+var OSCMessage = oscillate.OSCMessage,
+	OSCString = oscillate.OSCString;
 
-vows.describe('OSCMessage:').addBatch({
+vows.describe('OSC:').addBatch({
+	'OSCString': {
+		topic: {
+			actual: OSCString('i am a string'),
+			expected: [105, 32, 97, 109, 32, 97, 32, 115, 116, 114, 105, 110, 103, 0, 0, 0]
+		},
+		'should return array': function(topic) {
+			assert.isArray(topic.actual);
+		},
+		'returns array of correct length': function(topic) {
+			assert.equal(topic.actual.length, topic.expected.length);
+		},
+		'array length should be padded': function(topic) {
+			foo = OSCString('foo'),
+			assert.equal(foo.length, 4);
+		},
+		'returns correct nums in Array': function(topic) {
+			assert.deepEqual(topic.actual, topic.expected);
+		}
+	},
 	'OSCMessage': {
 		topic: new OSCMessage('/foo', 'i', 1),
 		'has an address': function(topic) {
