@@ -12,6 +12,18 @@ var OSCString = function (str) {
 
 exports.OSCString = OSCString;
 
+var OSCInt = function(num) {
+	return jspack.Pack('>i', [num]);
+}
+
+exports.OSCInt = OSCInt;
+
+var OSCFloat = function(num) {
+	return jspack.Pack('>f', [num]);
+}
+
+exports.OSCFloat = OSCFloat;
+
 OSCMessage = function (address, tag) {
 	this.args = Array.prototype.slice.call(arguments, 2) || [];
 	this.address = "" + address || "";

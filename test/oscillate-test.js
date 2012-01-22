@@ -3,7 +3,9 @@ var vows = require('vows'),
 	oscillate = require('./../oscillate');
 
 var OSCMessage = oscillate.OSCMessage,
-	OSCString = oscillate.OSCString;
+	OSCString = oscillate.OSCString,
+	OSCFloat = oscillate.OSCFloat,
+	OSCInt = oscillate.OSCInt;
 
 vows.describe('OSC:').addBatch({
 	'OSCString': {
@@ -23,6 +25,36 @@ vows.describe('OSC:').addBatch({
 		},
 		'returns correct nums in Array': function(topic) {
 			assert.deepEqual(topic.actual, topic.expected);
+		}
+	},
+	'OSCInt': {
+		topic: {
+			num: OSCInt(12345),
+			expected: [ 0, 0, 48, 57 ]
+		},
+		'should return array': function (topic) {
+			assert.isArray(topic.num);
+		},
+		'array should have length 4': function (topic) {
+			assert.equal(topic.num.length, 4);
+		},
+		'array should have correct byte fields': function (topic) {
+			assert.deepEqual(topic.num, topic.expected);
+		}
+	},
+	'OSCFloat': {
+		topic: {
+			num: OSCFloat(0.12345),
+			expected: [ 61, 252, 211, 91 ]
+		},
+		'should return array': function (topic) {
+			assert.isArray(topic.num);
+		},
+		'array should have length 4': function (topic) {
+			assert.equal(topic.num.length, 4);
+		},
+		'array should have correct byte fields': function (topic) {
+			assert.deepEqual(topic.num, topic.expected);
 		}
 	},
 	'OSCMessage': {
