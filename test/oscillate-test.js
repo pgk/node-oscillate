@@ -30,6 +30,9 @@ vows.describe('OSC:').addBatch({
 		'has formatOSC': function (topic) {
 			assert.notEqual('undefined', topic.formatOSC());
 		},
+		'is not a bundle': function (topic) {
+			assert.equal(false, topic.isbundle());
+		},
 		'.validateAddress': {
 			topic: new OSCMessage("/foo/bar", 'b'),
 			'returns true if address begins with /': function(topic) {

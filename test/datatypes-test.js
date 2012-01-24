@@ -4,7 +4,8 @@ var vows = require('vows'),
 
 var	OSCString = datatypes.OSCTypes.OSCString,
 	OSCFloat = datatypes.OSCTypes.OSCFloat,
-	OSCInt = datatypes.OSCTypes.OSCInt;
+	OSCInt = datatypes.OSCTypes.OSCInt,
+	OSCBlob = datatypes.OSCTypes.OSCBlob;
 
 vows.describe('OSC Data Types:').addBatch({
 	'OSCString': {
@@ -54,6 +55,21 @@ vows.describe('OSC Data Types:').addBatch({
 		},
 		'array should have correct byte fields': function (topic) {
 			assert.deepEqual(topic.num, topic.expected);
+		}
+	},
+	'OSCBlob': {
+		topic: {
+			binary: OSCBlob('0.12345abcdefREWT%$^#^%^'),
+			expected: [0,0,0,24,48,46,49,50,51,52,53,97,98,99,100,101,102,82,69,87,84,37,36,94,35,94,37,94]
+		},
+		'should return array': function (topic) {
+			assert.isArray(topic.binary);
+		},
+		'array should have padded length': function (topic) {
+			assert.equal(topic.binary.length, 28);
+		},
+		'array should have correct byte fields': function (topic) {
+			assert.deepEqual(topic.binary, topic.expected);
 		}
 	}
 }).export(module);
