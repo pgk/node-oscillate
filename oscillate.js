@@ -12,20 +12,19 @@ OSCMessage = function (address) {
 	this.tags = ",";
 };
 
-OSCMessage.prototype.validateAddress = function() {
-	return this.address.slice(0,1) === '/'
-};
-
-OSCMessage.prototype.validateTag = function() {
-	return tags[this.tag] === true;
-};
-
-OSCMessage.prototype.formatOSC = function () {
-};
-
-OSCMessage.prototype.append = function (type, param) {
-	this.args[this.args.length] = param;
-	this.tags = this.tags + type;
+OSCMessage.prototype = {
+	validateAddress: function() {
+		return this.address.slice(0,1) === '/'
+	},
+	validateTag: function() {
+		return tags[this.tag] === true;
+	},
+	formatOSC: function () {
+	},
+	append: function (type, param) {
+		this.args[this.args.length] = param;
+		this.tags = this.tags + type;
+	}
 };
 
 exports.OSCMessage = OSCMessage;

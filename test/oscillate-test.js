@@ -4,9 +4,9 @@ var vows = require('vows'),
 	datatypes = require('./../lib/datatypes');
 
 var OSCMessage = oscillate.OSCMessage,
-	OSCString = datatypes.OSCString,
-	OSCFloat = datatypes.OSCFloat,
-	OSCInt = datatypes.OSCInt;
+	OSCString = datatypes.OSCTypes.OSCString,
+	OSCFloat = datatypes.OSCTypes.OSCFloat,
+	OSCInt = datatypes.OSCTypes.OSCInt;
 
 vows.describe('OSC:').addBatch({
 	'OSCMessage': {

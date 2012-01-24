@@ -2,9 +2,9 @@ var vows = require('vows'),
     assert = require('assert'),
 	datatypes = require('./../lib/datatypes');
 
-var	OSCString = datatypes.OSCString,
-	OSCFloat = datatypes.OSCFloat,
-	OSCInt = datatypes.OSCInt;
+var	OSCString = datatypes.OSCTypes.OSCString,
+	OSCFloat = datatypes.OSCTypes.OSCFloat,
+	OSCInt = datatypes.OSCTypes.OSCInt;
 
 vows.describe('OSC Data Types:').addBatch({
 	'OSCString': {
