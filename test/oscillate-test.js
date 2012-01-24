@@ -10,18 +10,15 @@ var OSCMessage = oscillate.OSCMessage,
 
 vows.describe('OSC:').addBatch({
 	'OSCMessage': {
-		topic: new OSCMessage('/foo', 'i', 1),
+		topic: new OSCMessage('/foo'),
 		'has an address': function(topic) {
 			assert.equal(topic.address, '/foo');
-		},
-		'Has a tag': function(topic) {
-			assert.equal(topic.tag, ',i');
 		},
 		'Has zero or more OSCArguments on arguments': function(topic) {
 			assert.isArray(topic.args);
 		},
-		'arguments has length of 1': function(topic) {
-			assert.equal(topic.args.length, 1);
+		'arguments has length of 0': function(topic) {
+			assert.equal(topic.args.length, 0);
 		},
 		'Has validateAddress': function (topic) {
 			assert.notEqual('undefined', topic.validateAddress());
@@ -43,14 +40,17 @@ vows.describe('OSC:').addBatch({
 				assert.equal(topic.validateAddress(), false);
 			}
 		},
-		'.validateTag': {
-			topic: new OSCMessage("/foo/bar", 'b'),
-			'returns true if tag is valid': function(topic) {
-				assert.equal(topic.validateTag(), true);
+		'.append': {
+			topic: function () {
+				var msg = new OSCMessage("/foo/bar")
+				msg.append('i', OSCInt(1))
+				return msg;
 			},
-			'returns false if tag is invalid': function(topic) {
-				topic.tag = ',e';
-				assert.equal(topic.validateTag(), false);
+			'increases length of args by 1': function(topic) {
+				assert.equal(topic.args.length, 1);
+			},
+			'increases length of tags by 1': function(topic) {
+				assert.equal(topic.tags.length, 2);
 			}
 		}
 	}
