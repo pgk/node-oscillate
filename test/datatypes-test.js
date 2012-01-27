@@ -1,11 +1,11 @@
 var vows = require('vows'),
     assert = require('assert'),
-	datatypes = require('./../lib/datatypes');
+	types = require('./../lib/datatypes').OSCTypes;
 
-var	OSCString = datatypes.OSCTypes.OSCString,
-	OSCFloat = datatypes.OSCTypes.OSCFloat,
-	OSCInt = datatypes.OSCTypes.OSCInt,
-	OSCBlob = datatypes.OSCTypes.OSCBlob;
+var	OSCString = types.OSCString,
+	OSCFloat = types.OSCFloat,
+	OSCInt = types.OSCInt,
+	OSCBlob = types.OSCBlob;
 
 vows.describe('OSC Data Types:').addBatch({
 	'OSCString': {
@@ -70,6 +70,24 @@ vows.describe('OSC Data Types:').addBatch({
 		},
 		'array should have correct byte fields': function (topic) {
 			assert.deepEqual(topic.binary, topic.expected);
+		}
+	},
+	'OSCNil': {
+		topic: types.OSCNil(),
+		'should return null': function (topic) {
+			assert.equal(null, topic);
+		}
+	},
+	'OSCTimeTag': {
+		topic: function () {
+			var _date = new Date();
+			return {
+				date: _date,
+				time: types.OSCTimeTag(_date)
+			};
+		},
+		'should return time now': function (topic) {
+			assert.deepEqual([0,0,0,0,0,0,0,1], topic.time);
 		}
 	}
 }).export(module);

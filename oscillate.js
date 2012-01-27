@@ -24,6 +24,7 @@ OSCMessage.prototype = {
 	append: function (type, param) {
 		this.args[this.args.length] = param;
 		this.tags = this.tags + type;
+		return this;
 	},
 	isbundle: function () {
 		return false;
