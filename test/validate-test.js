@@ -38,6 +38,15 @@ vows.describe('OSC Validate:').addBatch({
 			assert.equal(false, Validate.addressSymbol('addresswith}'));
 		}
 	},
+	'OSC tag': {
+		topic: null,
+		'should start with ,': function (topic) {
+			assert.equal(true, Validate.tag(',iii'));
+		},
+		'should contain only legal chars': function (topic) {
+			assert.equal(false, Validate.tag(',abc'));
+		}
+	},
 	'Extract': {
 		topic: null,
 		'should extract address components': function (topic) {
