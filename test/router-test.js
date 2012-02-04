@@ -1,6 +1,9 @@
 var vows = require('vows'),
     assert = require('assert'),
-	Route = require('./../lib/router').Route;
+	router = require('./../lib/router');
+
+var Route = router.Route;
+var Router = router.Router;
 
 vows.describe('Router and Routes').addBatch({
 	'Route': {
@@ -31,6 +34,22 @@ vows.describe('Router and Routes').addBatch({
 			route.add(function (a, b) { return a + b; });
 			route.add(function (a, b, c) { return a + b + c; });
 			assert.deepEqual(route.execute('foo', 'bar', 'baz'), ['foobar', 'foobarbaz']);
+		}
+	},
+	'Router': {
+		topic: new Router,
+		'constructor should init routes to empty': function (topic) {
+			assert.equal(0, topic.routes.length);
+		},
+		'on adds route to routes': function (topic) {
+			topic.on('/foo/bar', function () {});
+			assert.equal(topic.routes.length, 1);
+		},
+		'resolve should return false if route does not match': function (topic) {
+			assert.equal(topic.resolve('/bar/baz'), false);
+		},
+		'resolve should return route if route does not match': function (topic) {
+			assert.notEqual(topic.resolve('/foo/bar'), false);
 		}
 	}
 }).export(module);
