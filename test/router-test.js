@@ -55,6 +55,21 @@ vows.describe('Router and Routes').addBatch({
 			topic.on('/foo/baz', function () {});
 			var matched = topic.resolve('/foo/*');
 			assert.equal(matched.length, 2);
+		},
+		'resolve should return array of routes matched on [abc]': function(topic) {
+			var matched = topic.resolve('/foo/ba[rz]');
+			console.log(matched);
+			assert.equal(matched.length, 2);
+		},
+		'resolve should return array of routes matched on ?': function(topic) {
+			var matched = topic.resolve('/foo/?a?');
+			console.log(matched);
+			assert.equal(matched.length, 2);
+		},
+		'resolve should return array of routes matched on !': function(topic) {
+			var matched = topic.resolve('/foo/?a[!z]');
+			console.log(matched);
+			assert.equal(matched.length, 1);
 		}
 	}
 }).export(module);

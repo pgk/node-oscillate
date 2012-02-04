@@ -51,6 +51,12 @@ vows.describe('OSC Validate:').addBatch({
 		topic: null,
 		'should extract address components': function (topic) {
 			assert.deepEqual(['an', 'osc', 'address'], Extract.address('/an/osc/address'));
+		},
+		'matches {words}': function () {
+			assert.deepEqual(Extract.fromBrackets('{a,word,here}'), ['a', 'word', 'here']);
+		},
+		'should not match {words': function () {
+			assert.deepEqual(Extract.fromBrackets('{a,word,here'), []);
 		}
 	}
 }).export(module);
