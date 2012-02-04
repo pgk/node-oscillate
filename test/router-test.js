@@ -45,11 +45,16 @@ vows.describe('Router and Routes').addBatch({
 			topic.on('/foo/bar', function () {});
 			assert.equal(topic.routes.length, 1);
 		},
-		'resolve should return false if route does not match': function (topic) {
-			assert.equal(topic.resolve('/bar/baz'), false);
+		'resolve should return empty array if route does not match': function (topic) {
+			assert.deepEqual(topic.resolve('/bar/baz'), []);
 		},
-		'resolve should return route if route does not match': function (topic) {
-			assert.notEqual(topic.resolve('/foo/bar'), false);
+		'resolve should return route if route matches': function (topic) {
+			assert.equal(topic.resolve('/foo/bar').length, 1);
+		},
+		'resolve should return array of routes matched on wildcards': function(topic) {
+			topic.on('/foo/baz', function () {});
+			var matched = topic.resolve('/foo/*');
+			assert.equal(matched.length, 2);
 		}
 	}
 }).export(module);
