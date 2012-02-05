@@ -1,25 +1,20 @@
 var vows = require('vows'),
     assert = require('assert'),
 	oscillate = require('./../oscillate'),
-	datatypes = require('./../lib/datatypes');
+	types = require('./../lib/datatypes');
 
+var FromOSC = types.FromOSC;
 var OSCMessage = oscillate.OSCMessage,
-	OSCString = datatypes.OSCTypes.OSCString,
-	OSCFloat = datatypes.OSCTypes.OSCFloat,
-	OSCInt = datatypes.OSCTypes.OSCInt;
+	OSCString = FromOSC['s'],
+	OSCFloat = FromOSC['f'],
+	OSCInt = FromOSC['i'];
 
 vows.describe('OSC:').addBatch({
 	'OSCMessage': {
 		topic: new OSCMessage('/foo'),
-		'has an address': function(topic) {
-			assert.equal(topic.address, '/foo');
-		},
-		'Has zero or more OSCArguments on arguments': function(topic) {
-			assert.isArray(topic.args);
-		},
-		'arguments has length of 0': function(topic) {
-			assert.equal(topic.args.length, 0);
-		},
+		'has an address': function(topic) { assert.equal(topic.address, '/foo'); },
+		'Has args array': function(topic) { assert.isArray(topic.args); },
+		'args init length 0': function(topic) { assert.equal(topic.args.length, 0); },
 		'Has validateAddress': function (topic) {
 			assert.notEqual('undefined', topic.validateAddress());
 			assert.equal(typeof topic.validateAddress, 'function');
@@ -30,9 +25,7 @@ vows.describe('OSC:').addBatch({
 		'has formatOSC': function (topic) {
 			assert.notEqual('undefined', topic.formatOSC());
 		},
-		'is not a bundle': function (topic) {
-			assert.equal(false, topic.isbundle());
-		},
+		'is not a bundle': function (topic) { assert.equal(false, topic.isbundle()); },
 		'.validateAddress': {
 			topic: new OSCMessage("/foo/bar", 'b'),
 			'returns true if address begins with /': function(topic) {
