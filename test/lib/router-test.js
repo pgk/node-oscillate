@@ -1,6 +1,6 @@
 var vows = require('vows'),
     assert = require('assert'),
-	router = require('./../lib/router');
+	router = require('./../../lib/router');
 
 var Route = router.Route;
 var Router = router.Router;
@@ -58,17 +58,14 @@ vows.describe('Router and Routes').addBatch({
 		},
 		'resolve should return array of routes matched on [abc]': function(topic) {
 			var matched = topic.resolve('/foo/ba[rz]');
-			console.log(matched);
 			assert.equal(matched.length, 2);
 		},
 		'resolve should return array of routes matched on ?': function(topic) {
 			var matched = topic.resolve('/foo/?a?');
-			console.log(matched);
 			assert.equal(matched.length, 2);
 		},
 		'resolve should return array of routes matched on !': function(topic) {
 			var matched = topic.resolve('/foo/?a[!z]');
-			console.log(matched);
 			assert.equal(matched.length, 1);
 		}
 	}

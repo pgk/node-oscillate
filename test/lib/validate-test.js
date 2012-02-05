@@ -1,8 +1,8 @@
 var vows = require('vows'),
     assert = require('assert');
 
-var	Validate = require('./../lib/validate').Validate;
-var Extract = require('./../lib/validate').Extract;
+var	Validate = require('./../../lib/validate').Validate;
+var Extract = require('./../../lib/validate').Extract;
 
 vows.describe('OSC Validate:').addBatch({
 	'OSC Address Name': {

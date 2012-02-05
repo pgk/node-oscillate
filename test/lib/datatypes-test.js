@@ -1,6 +1,6 @@
 var vows = require('vows'),
     assert = require('assert'),
-	types = require('./../lib/datatypes').OSCTypes;
+	types = require('./../../lib/datatypes').OSCTypes;
 
 var	OSCString = types.OSCString,
 	OSCFloat = types.OSCFloat,
