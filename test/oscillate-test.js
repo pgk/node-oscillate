@@ -3,50 +3,29 @@ var vows = require('vows'),
 	oscillate = require('./../oscillate'),
 	types = require('./../lib/datatypes');
 
-var FromOSC = types.FromOSC;
-var OSCMessage = oscillate.OSCMessage,
-	OSCString = FromOSC['s'],
-	OSCFloat = FromOSC['f'],
-	OSCInt = FromOSC['i'];
+var ToOSC = types.ToOSC;
+var OSCMessage = oscillate.OSCMessage;
 
 vows.describe('OSC:').addBatch({
 	'OSCMessage': {
 		topic: new OSCMessage('/foo'),
 		'has an address': function(topic) { assert.equal(topic.address, '/foo'); },
-		'Has args array': function(topic) { assert.isArray(topic.args); },
-		'args init length 0': function(topic) { assert.equal(topic.args.length, 0); },
-		'Has validateAddress': function (topic) {
-			assert.notEqual('undefined', topic.validateAddress());
-			assert.equal(typeof topic.validateAddress, 'function');
-		},
-		'Has validateTag': function (topic) {
-			assert.notEqual('undefined', topic.validateTag());
-		},
-		'has formatOSC': function (topic) {
-			assert.notEqual('undefined', topic.formatOSC());
-		},
-		'is not a bundle': function (topic) { assert.equal(false, topic.isbundle()); },
-		'.validateAddress': {
-			topic: new OSCMessage("/foo/bar", 'b'),
-			'returns true if address begins with /': function(topic) {
-				assert.equal(topic.validateAddress(), true);
-			},
-			'returns false if address does not begin with /': function(topic) {
-				topic.address = 'foo';
-				assert.equal(topic.validateAddress(), false);
-			}
-		},
+		'Has args array': function(topic) { assert.isArray(topic.message); },
+		'args init length 0': function(topic) { assert.equal(topic.message.length, 0); },
 		'.append': {
 			topic: function () {
 				var msg = new OSCMessage("/foo/bar")
-				msg.append('i', OSCInt(1))
+				msg.append(1, 'i')
 				return msg;
 			},
-			'increases length of args by 1': function(topic) {
-				assert.equal(topic.args.length, 1);
+			'increases length of args by 4': function(topic) {
+				assert.equal(topic.message.length, 4);
 			},
 			'increases length of tags by 1': function(topic) {
-				assert.equal(topic.tags.length, 2);
+				assert.equal(topic.typetags.length, 2);
+			},
+			'toBinary returns array of all elements': function(topic) {
+				assert.deepEqual(topic.toBinary(), [ 47, 102, 111, 111, 47, 98, 97, 114, 0, 0, 0, 0, 44, 105, 0, 0, 0, 0, 0, 1 ]);
 			}
 		}
 	}
