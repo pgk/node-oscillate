@@ -1,0 +1,22 @@
+{
+  "author": "Panos Kountanis <panosktn@gmail.com>",
+  "name": "oscillate",
+  "description": "OSC Middleware for node.js",
+  "keywords": ["realtime", "osc", "music"],
+  "version": "0.0.2-1-g9d6a033",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pgk/node-oscillate.git"
+  },
+  "engines": {
+    "node": "~0.6.6"
+  },
+  "dependencies": {
+    "jspack": "0.0.1"
+  },
+  "devDependencies": {
+    "vows": "0.6.1"
+  },
+  "main": "oscillate",
+  "optionalDependencies": {}
+}
