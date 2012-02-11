@@ -1,4 +1,4 @@
-var Server = require('./../lib/server').Server;
+var Server = require('./../oscillate').oscillate.Server;
 
 var s = new Server(7377, '127.0.0.1');
 

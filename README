@@ -1,1 +1,9 @@
 OSC For Node.js
+
+The final goal is to have a JSON to OSC/OSC to JSON middleware that speaks both OSC and HTTP/JSON to be used for web based music/video control. It is really alpha right now. The working part is the Server and Client for OSC. You can have a look at the examples for communicating with Max/MSP.
+working release v0.0.1
+
+
+CREDITS/LICENCE:
+This library is derived partly from node-osc, that is a port of pyOSC. It also uses jspack.
+Licence is MIT.
