@@ -58,5 +58,15 @@ vows.describe('From/To OSC:').addBatch({
 				time = ToOSC.time_tag(date);
 			assert.deepEqual([0,0,0,0,0,0,0,1], time);
 		}
+	},
+	'with typehints': function () {
+		var num = ToOSC.argument(12345, 'i'),
+			flo = ToOSC.argument(0.12345, 'f'),
+			dbl = ToOSC.argument(0.12345, 'd'),
+			str = ToOSC.argument('i am a string', 's');
+		assert.deepEqual(num[1], [ 0, 0, 48, 57 ]);
+		assert.deepEqual(flo[1], [ 61, 252, 211, 91 ]);
+		assert.deepEqual(dbl[1], [ 61, 252, 211, 91 ]);
+		assert.deepEqual(str[1], [105, 32, 97, 109, 32, 97, 32, 115, 116, 114, 105, 110, 103, 0, 0, 0]);
 	}
 }).export(module);

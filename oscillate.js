@@ -2,7 +2,6 @@ var util   = require('util'),
 	types  = require('./lib/datatypes'),
 	convert = require('./lib/convert');
 
-var tags = {',i':true, ',f':true, ',s':true, ',b':true};
 var ToOSC = types.ToOSC;
 
 var OSCMessage = function (address) {
@@ -14,15 +13,17 @@ var OSCMessage = function (address) {
 OSCMessage.prototype = {
     append: function (arg, typehint) {
 	    if (arg instanceof Array) {
-	        for (var i in arg) {
+	        for (var i=0, len = arg.length; i < len; i++) {
 	            this.append(arg[i], typehint);
 	        }
 	        return null;
 	    }
 	    if (typeof(arg) == 'object') {
-	        for (var k in arg) {
-	            this.append([k, arg[k]]);
-	        }
+		    for (var k in arg) {
+		        if (arg.hasOwnProperty(k)) {
+					this.append([arg[k]]);
+				}
+			}
 	        return null;
 	    }
 	    
@@ -37,7 +38,6 @@ OSCMessage.prototype = {
 	        tag = rv[0];
 	        binary = rv[1];
 	    }
-	    
 	    this.typetags += tag;
 	    this.message = this.message.concat(binary);
 	},
@@ -52,40 +52,40 @@ OSCMessage.prototype = {
 var OSCBundle = function (address, timestamp) {
 	OSCMessage.call(this, address);
 	this.timestamp = timestamp || 0;
-	this.bundle = true;
 };
+
+util.inherits(OSCBundle, OSCMessage);
 
 OSCBundle.prototype = {
 	append: function (arg, typehint) {
-	    var binary;
-	    if (arg instanceof Message) {
-	        binary = OSCBlob(arg.toBinary());
+	    var binary, blob;
+	    if (arg instanceof OSCMessage) {
+	        blob = arg.toBinary();
 	    } else {
-	        var msg = Message(this.address);
+	        var msg = OSCMessage(this.address);
 	        if (typeof(arg) == 'Object') {
 	            if (arg.addr) {
 	                msg.address = arg.addr;
 	            }
 	            if (arg.args) {
-	                msg.append(arg.args, typehint);
+	                msg.append(arg.args);
 	            }
 	        } else {
-	            msg.append(arg, typehint);
+	            msg.append(arg);
 	        }
-	        binary = OSCBlob(msg.toBinary());
+	        blob = msg.toBinary();
 	    }
+	    binary = ToOSC.blob(blob);
 	    this.message += binary;
 	    this.typetags += 'b';
 	},
 	toBinary: function () {
-	    var binary = OSCString('#bundle');
-	    binary = binary.concat(OSCTimeTag(this.timetag));
+	    var binary = ToOSC.string('#bundle');
+	    binary = binary.concat(ToOSC.time_tag(this.timestamp));
 	    binary = binary.concat(this.message);
 	    return binary;
 	}
 };
-
-util.inherits(OSCBundle, OSCMessage);
 
 exports.OSCMessage = OSCMessage;
 exports.OSCBundle = OSCBundle;

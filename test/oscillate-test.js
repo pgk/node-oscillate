@@ -4,7 +4,8 @@ var vows = require('vows'),
 	types = require('./../lib/datatypes');
 
 var ToOSC = types.ToOSC;
-var OSCMessage = oscillate.OSCMessage;
+var OSCMessage = oscillate.OSCMessage,
+	OSCBundle = oscillate.OSCBundle;
 
 vows.describe('OSC:').addBatch({
 	'OSCMessage': {
@@ -26,7 +27,27 @@ vows.describe('OSC:').addBatch({
 			},
 			'toBinary returns array of all elements': function(topic) {
 				assert.deepEqual(topic.toBinary(), [ 47, 102, 111, 111, 47, 98, 97, 114, 0, 0, 0, 0, 44, 105, 0, 0, 0, 0, 0, 1 ]);
+			},
+			'append object literal': function() {
+				var msg = new OSCMessage('/foo/bar');
+				msg.append({i:1, j:2});
+				assert.equal(3, msg.typetags.length);
+			},
+			'append array': function () {
+				var msg = new OSCMessage('/foo/bar');
+				msg.append([1,2,3,'str', 0.1]);
+				assert.equal(msg.typetags.length, 6);
+				assert.equal(',iiisf', msg.typetags);
 			}
+		}
+	},
+	'OSCBundle': {
+		'append message': function () {
+			var msg = new OSCMessage('/foo/bar'), bundle;
+			msg.append(['foo', 'bar', 1, 2, 3.3]);
+			bundle = new OSCBundle('/address/one');
+			bundle.append(msg);
+			assert.equal(2, bundle.typetags.length);
 		}
 	}
 }).export(module);
