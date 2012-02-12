@@ -1,5 +1,5 @@
 var assert = require('assert'),
-    lib = require('./../../lib/server');
+    lib = require('./../lib/server');
 
 var Server = lib.Server,
 	Client = lib.Client;
