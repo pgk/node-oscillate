@@ -5,10 +5,11 @@ var ToOSC = types.ToOSC;
 var OSCMessage = types.OSCMessage,
     OSCBundle = types.OSCBundle;
 
+
 describe('OSC:', function () {
 
-
     describe('OSCMessage', function () {
+
         var topic = function () { return new OSCMessage('/foo'); };
 
         it('has an address', function() {
@@ -59,30 +60,40 @@ describe('OSC:', function () {
 
     });
 
-    // 'OSCBundle': {
-    //  'append message': function () {
-    //      var msg = new OSCMessage('/foo/bar'), bundle;
-    //      msg.append(['foo', 'bar', 1, 2, 3.3]);
-    //      bundle = new OSCBundle('/address/one');
-    //      bundle.append(msg);
-    //      assert.equal(2, bundle.typetags.length);
-    //  }
-    // },
-    // 'String': {
-    //  topic: {
-    //      actual: ToOSC.str('i am a string'),
-    //      expected: [105, 32, 97, 109, 32, 97, 32, 115, 116, 114, 105, 110, 103, 0, 0, 0]
-    //  },
-    //  'should return array, with correct length and bytefields': function(topic) {
-    //      assert.isArray(topic.actual);
-    //      assert.equal(topic.actual.length, topic.expected.length);
-    //      foo = ToOSC.str('foobar'),
-    //      assert.equal(foo.length % 4, 0);
-    //  },
-    //  'returns correct nums': function(topic) {
-    //      assert.deepEqual(topic.actual, topic.expected);
-    //  }
-    // },
+
+    describe('OSCBundle', function () {
+
+        it('appends message', function () {
+            var msg = new OSCMessage('/foo/bar'),
+                bundle;
+
+            msg.append(['foo', 'bar', 1, 2, 3.3]);
+            bundle = new OSCBundle('/address/one');
+            bundle.append(msg);
+            assert.equal(2, bundle.typetags.length);
+        });
+
+    });
+
+
+    describe('String', function () {
+
+        var topic = {
+            actual: ToOSC.str('i am a string'),
+            expected: [105, 32, 97, 109, 32, 97, 32, 115, 116, 114, 105, 110, 103, 0, 0, 0]
+        };
+
+        it('should return array, with correct length and bytefields', function() {
+            assert.isArray(topic.actual);
+            assert.equal(topic.actual.length, topic.expected.length);
+            var foo = ToOSC.str('foobar');
+            assert.equal(foo.length % 4, 0);
+        });
+        it('returns correct nums', function () {
+            assert.deepEqual(topic.actual, topic.expected);
+        });
+    });
+
     // 'Int': {
     //  topic: {
     //      num: ToOSC.argument(12345),

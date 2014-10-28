@@ -15,7 +15,12 @@
 [2K[0G      [32m  ✓[0m[90m toBinary returns array of all elements [0m
 [2K[0G      [32m  ✓[0m[90m append object literal [0m
 [2K[0G      [32m  ✓[0m[90m append array [0m
+[0m    OSCBundle[0m
+[2K[0G    [32m  ✓[0m[90m appends message [0m
+[0m    String[0m
+[2K[0G    [32m  ✓[0m[90m should return array, with correct length and bytefields [0m
+[2K[0G    [32m  ✓[0m[90m returns correct nums [0m
 
 
-[92m [0m[32m 10 passing[0m[90m (18ms)[0m
+[92m [0m[32m 13 passing[0m[90m (22ms)[0m
 
