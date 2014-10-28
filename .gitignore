@@ -31,7 +31,8 @@ $RECYCLE.BIN/
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
@@ -136,4 +137,5 @@ node_modules
 *.tmproj
 .DS_Store
 node_modules
+results.txt
 

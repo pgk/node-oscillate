@@ -20,8 +20,8 @@
   },
   "main": "oscillate",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --reporter spec tests/*/*.js",
-    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks tests/*/*.js"
+    "test": "./node_modules/.bin/mocha --recursive --reporter spec tests/",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --recursive --check-leaks tests/"
   },
   "optionalDependencies": {},
   "devDependencies": {
