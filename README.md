@@ -1,8 +1,6 @@
 oscillate: A JavaScript OSC toolbelt
 ---------------------------------
 
-[![Build Status][travis-image]][travis-url]
-### Status
 [![Build Status](https://travis-ci.org/pgk/node-oscillate.svg?branch=master)](https://travis-ci.org/pgk/node-oscillate.svg?branch=master)
 
 `oscillate` is an OSC toolbelt for the server and the borwser 
