@@ -19,7 +19,9 @@
     "jspack": "0.0.1"
   },
   "main": "oscillate",
-  "test": "./node_modules/.bin/mocha tests",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --reporter spec tests/*/*.js"
+  },
   "optionalDependencies": {},
   "devDependencies": {
     "chai": "^1.9.2",
