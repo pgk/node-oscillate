@@ -3,21 +3,39 @@ oscillate: A JavaScript OSC toolbelt
 
 [![Build Status](https://travis-ci.org/pgk/node-oscillate.svg?branch=master)](https://travis-ci.org/pgk/node-oscillate.svg?branch=master)
 
-`oscillate` (abbr. `osc`) is an OSC toolbelt for the server and the borwser 
+`oscillate` (abbr. `osc`) is an OSC toolbelt for the server and the browser 
 
 ## Usage
 
 creating an osc message
 
 ``` js
-var osc = require('oscillate');
+var OSC = require('oscillate');
 
-var msg = osc.message('/recipient')
-	.append('noteon', 's')
-	.append(64, 'i');
+var msg = OSC.message('/recipient', 'noteon', 64 127);
+
+var binBuffer = OSC.message.encode('/recipient', 'noteon', 64 127);
+
+var decodedMessage = OSC.message.decode(binBuffer);
 
 ```
 
+a simple osc server
+
+``` js
+
+var OSC = require('oscillate');
+
+var server = OSC.server('tcp', {host: "localhost", port: 8080})
+
+server.on('/recipient', function (noteOnOrOff, noteValue, velocity) {
+	console.log(noteOnOrOff);
+	this.sender.send(OSC.message('/sender', 'noteoff', 64));
+});
+
+server.run();
+
+```
 
 ### The fine print
 
