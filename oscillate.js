@@ -1,7 +1,32 @@
 var server = require('./lib/server'),
+	convert = require('./lib/convert'),
 	datatypes = require('./lib/datatypes');
 
 var slice = Array.prototype.slice;
+
+var message = function () {
+	var args = slice.call(arguments, 0),
+		address = args.shift(),
+		msg = new datatypes.OSCMessage(address),
+		argument;
+      
+    while(argument = args.shift()) {
+      if ('undefined' !== typeof argument) msg.append(argument);
+    }
+
+	return msg;
+};
+
+
+message.decode = function (byteArray) {
+	return (new convert.Decoder()).decode(byteArray);
+};
+
+
+message.encode = function () {
+	var msg = message.apply(null, arguments);
+    return new buffer.Buffer(msg.toBinary(), 'binary');
+};
 
 
 module.exports = {
@@ -11,17 +36,5 @@ module.exports = {
 	},
 	client: function () {
 	},
-	message: function (address) {
-		var msg = new datatypes.OSCMessage(address),
-			rest = slice.call(arguments, 1);
-
-		if (rest && rest.length == 2) {
-			var arg = rest[0],
-				typehint = rest[1];
-
-			msg.append(arg, typehint);
-		}
-
-		return msg;
-	}
+	message: message
 };
