@@ -31,22 +31,37 @@ describe('Router and Routes', function () {
 
 		});
 		
-		it('add should add a callback function to callbacks', function () {
+		it('Route.add() adds a callback to Route.callbacks', function () {
 			var route = new Route('/foo/bar');
 			route.add(function () {});
 			assert.equal(route.callbacks.length, 1);
 		});
-		it('execute should execute the function with the args provided', function () {
-			var route = new Route('/foo/bar');
-			route.add(function (a, b) { return a + b; });
-			assert.deepEqual(route.execute('foo', 'bar'), ['foobar']);
+
+		describe('execute', function () {
+			it('accepts an array of arguments', function () {
+				var route = new Route('/foo/bar');
+				route.add(function (a, b) { return a + b; });
+				assert.deepEqual(route.execute(['foo', 'bar']), ['foobar']);
+			});
+			it('accepts an optional context object', function () {
+				var route = new Route('/foo/bar'), ctx = {name: 'bar'};
+				route.add(function (a, b) { return a + b + this.name; });
+				assert.deepEqual(route.execute(ctx, ['foo', 'bar']), ['foobarbar']);
+			});
+			it('execute should execute the function with the args provided', function () {
+				var route = new Route('/foo/bar');
+				route.add(function (a, b) { return a + b; });
+				assert.deepEqual(route.execute(['foo', 'bar']), ['foobar']);
+			});
+
+			it('execute should execute all functions with the args provided', function () {
+				var route = new Route('/foo/bar');
+				route.add(function (a, b) { return a + b; });
+				route.add(function (a, b, c) { return a + b + c; });
+				assert.deepEqual(route.execute(['foo', 'bar', 'baz']), ['foobar', 'foobarbaz']);
+			});
 		});
-		it('execute should execute all functions with the args provided', function () {
-			var route = new Route('/foo/bar');
-			route.add(function (a, b) { return a + b; });
-			route.add(function (a, b, c) { return a + b + c; });
-			assert.deepEqual(route.execute('foo', 'bar', 'baz'), ['foobar', 'foobarbaz']);
-		});
+
 	});
 
 	describe('Router', function () {

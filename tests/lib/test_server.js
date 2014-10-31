@@ -33,19 +33,18 @@ describe('Server', function () {
 
 
 	describe('server routes', function () {
-		// Fails
-		// it('callback if valid message sent', function (done) {
-		// 	var osc = makeServer();
 
-		// 	osc.on('/noteon', function (typehints, note, velocity) {
-		// 		console.log(arguments);
-		// 		assert.equal(note, 64);
-		// 		done();
-		// 	});
+		it('callback if valid message sent', function (done) {
+			var osc = makeServer();
 
-		// 	osc.transport.receive(OSC.message.encode("/noteon", 64, 127));
+			osc.on('/noteon', function (typehints, note, velocity) {
+				assert.equal(note, 64);
+				done();
+			});
 
-		// });
+			osc.transport.receive(OSC.message.encode("/noteon", 64, 127));
+
+		});
 	});
 
 });

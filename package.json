@@ -20,7 +20,7 @@
   },
   "main": "oscillate",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --recursive --reporter spec tests/",
+    "test": "./node_modules/.bin/mocha --recursive --reporter dot tests/",
     "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --recursive --check-leaks tests/"
   },
   "optionalDependencies": {},
